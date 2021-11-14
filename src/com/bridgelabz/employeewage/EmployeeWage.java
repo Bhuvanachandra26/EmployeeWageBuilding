@@ -1,41 +1,77 @@
 package com.bridgelabz.employeewage;
 
-public class EmployeeWage {
+import java.util.ArrayList;
+
+public class EmployeeWage implements EmployeeService {
 	public static final int IS_PART_TIME = 1;
 	public static final int IS_FULL_TIME = 2;
-	public static final int EMP_RATE_PER_HOUR = 20;
-	public static final int NUM_OF_WORKING_DAYS = 30;
-	public static final int MAX_HRS_IN_MONTH = 100;
-	
-	public static int computeEmpWage() {
+
+	private int numOfCompany = 0;
+	private ArrayList<CompanyEmployeeWage> companyEmpWageList;
+
+	public EmployeeWage() {
+		companyEmpWageList = new ArrayList<CompanyEmployeeWage>();
+	}
+
+	public void addCompanyEmpWage(String company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth) {
+		CompanyEmployeeWage companyEmpWage = new CompanyEmployeeWage(company, empRatePerHour, numOfWorkingDays,
+				maxHoursPerMonth);
+		companyEmpWageList.add(companyEmpWage);
+	}
+
+	public void computeEmpWage() {
+		for (int i = 0; i < companyEmpWageList.size(); i++) {
+
+			CompanyEmployeeWage companyEmpWage = companyEmpWageList.get(i);
+			companyEmpWage.setTotalEmpWage(this.computeEmpWage(companyEmpWage));
+			System.out.println(companyEmpWage);
+		}
+	}
+
+	@Override
+	public int getTotalWage(String company) {
+		int totalWage = 0;
+		for (int i = 0; i < companyEmpWageList.size(); i++) {
+			if (company.equals(companyEmpWageList.get(i).getCompany())) {
+				totalWage = companyEmpWageList.get(i).getTotalEmpWage();
+				return totalWage;
+			}
+
+		}
+		return 0;
+	}
+
+	private int computeEmpWage(CompanyEmployeeWage companyEmpWage) {
 		// variables
 		int empHrs = 0, totalEmpHrs = 0, totalWorkingDays = 0;
-		while (totalEmpHrs <= MAX_HRS_IN_MONTH &&
-				totalWorkingDays < NUM_OF_WORKING_DAYS) {
+		// Computation
+		while (totalEmpHrs <= companyEmpWage.getMaxHoursPerMonth()
+				&& totalWorkingDays < companyEmpWage.getNumOfWorkingDays()) {
 			totalWorkingDays++;
-			int empCheck = (int)Math.floor(Math.random()*10)%3;
+			int empCheck = (int) Math.floor(Math.random() * 10) % 3;
+
 			switch (empCheck) {
-			case IS_FULL_TIME:
+			case IS_PART_TIME:
 				empHrs = 4;
 				break;
-			case IS_PART_TIME:
+			case IS_FULL_TIME:
 				empHrs = 8;
 				break;
 			default:
 				empHrs = 0;
-				
 			}
-			
 			totalEmpHrs += empHrs;
-			System.out.println("Days#:" +totalWorkingDays+ "EmpHrs:" +empHrs);
-		} 
-		int totalEmpWage = totalEmpHrs * EMP_RATE_PER_HOUR;
-		System.out.println("Total Emp Wage:" +totalEmpWage);
-		return totalEmpWage;
+			System.out.println("Day#: " + totalWorkingDays + " Emp Hr: " + empHrs);
+		}
+		return totalEmpHrs * companyEmpWage.getEmpRatePerHour();
 	}
-	
-	public static void main(String[] args) {
-		computeEmpWage();
 
+	public static void main(String[] args) {
+		EmployeeWage employeeWage = new EmployeeWage();
+		employeeWage.addCompanyEmpWage("DMart", 20, 2, 10);
+		employeeWage.addCompanyEmpWage("jio", 10, 4, 20);
+		employeeWage.computeEmpWage();
+		System.out.println("Total Wage for DMart Company:" + employeeWage.getTotalWage("DMart")) ;
 	}
+
 }
