@@ -45,19 +45,29 @@ public class EmployeeWage {
 
 	}
 
-	@Override
-	public String toString() {
-		return "EmployeeWage [company=" + company + ", totalEmpWage=" + totalEmpWage + "]";
-	}
+
+
 
 	public static void main(String[] args) {
+		int IS_FULL_TIME = 1;
 
-		EmployeeWage dMart = new EmployeeWage("DMart", 20, 2, 10);
-		EmployeeWage jio = new EmployeeWage("jio", 10, 4, 20);
-		dMart.computeEmpWage();
-		System.out.println(dMart);
-		jio.computeEmpWage();
-		System.out.println(jio);
+
+		double empCheck = Math.floor(Math.random()*10)%2;
+
+		if (empCheck == IS_FULL_TIME)
+			empHrs = 8;
+		else if (empCheck == IS_PART_TIME)
+			empHrs = 4;
+		else
+			empHrs = 0;
+		empWage = empHrs*EMP_RATE_PER_HOUR;
+		System.out.println("Emp Wage:" + empWage);
+
 
 	}
+
 }
+
+
+
+
