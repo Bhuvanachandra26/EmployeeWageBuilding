@@ -1,10 +1,12 @@
 package com.bridgelabz.employeewage;
 
+
 public class EmployeeWage implements EmployeeService {
 	public static final int IS_PART_TIME = 1;
 	public static final int IS_FULL_TIME = 2;
 
 	private int numOfCompany = 0;
+
 	private CompanyEmployeeWage[] companyEmpWageArray;
 
 	public EmployeeWage() {
@@ -22,6 +24,7 @@ public class EmployeeWage implements EmployeeService {
 			companyEmpWageArray[i].setTotalEmpWage(this.computeEmpWage(companyEmpWageArray[i]));
 			System.out.println(companyEmpWageArray[i]);
 		}
+
 	}
 
 	private int computeEmpWage(CompanyEmployeeWage companyEmpWage) {
@@ -54,6 +57,7 @@ public class EmployeeWage implements EmployeeService {
 
 
 
+
 	public static void main(String[] args) {
 		int IS_FULL_TIME = 1;
 
@@ -72,10 +76,12 @@ public class EmployeeWage implements EmployeeService {
 
 
 
+
+	public static void main(String[] args) {
+		EmployeeWage employeeWage = new EmployeeWage();
+		employeeWage.addCompanyEmpWage("DMart", 20, 2, 10);
+		employeeWage.addCompanyEmpWage("jio", 10, 4, 20);
+		employeeWage.computeEmpWage();
+		System.out.println("Total Wage for DMart Company:" + employeeWage.getTotalWage("DMart")) ;
 	}
-
-}
-
-
-
 
