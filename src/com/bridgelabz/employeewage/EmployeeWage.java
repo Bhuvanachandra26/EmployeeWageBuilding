@@ -1,44 +1,30 @@
 package com.bridgelabz.employeewage;
 
-import java.util.ArrayList;
 
 public class EmployeeWage implements EmployeeService {
 	public static final int IS_PART_TIME = 1;
 	public static final int IS_FULL_TIME = 2;
 
 	private int numOfCompany = 0;
-	private ArrayList<CompanyEmployeeWage> companyEmpWageList;
+
+	private CompanyEmployeeWage[] companyEmpWageArray;
 
 	public EmployeeWage() {
-		companyEmpWageList = new ArrayList<CompanyEmployeeWage>();
+		companyEmpWageArray = new CompanyEmployeeWage[5];
 	}
 
 	public void addCompanyEmpWage(String company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth) {
-		CompanyEmployeeWage companyEmpWage = new CompanyEmployeeWage(company, empRatePerHour, numOfWorkingDays,
+		companyEmpWageArray[numOfCompany] = new CompanyEmployeeWage(company, empRatePerHour, numOfWorkingDays,
 				maxHoursPerMonth);
-		companyEmpWageList.add(companyEmpWage);
+		numOfCompany++;
 	}
 
 	public void computeEmpWage() {
-		for (int i = 0; i < companyEmpWageList.size(); i++) {
-
-			CompanyEmployeeWage companyEmpWage = companyEmpWageList.get(i);
-			companyEmpWage.setTotalEmpWage(this.computeEmpWage(companyEmpWage));
-			System.out.println(companyEmpWage);
+		for (int i = 0; i < numOfCompany; i++) {
+			companyEmpWageArray[i].setTotalEmpWage(this.computeEmpWage(companyEmpWageArray[i]));
+			System.out.println(companyEmpWageArray[i]);
 		}
-	}
 
-	@Override
-	public int getTotalWage(String company) {
-		int totalWage = 0;
-		for (int i = 0; i < companyEmpWageList.size(); i++) {
-			if (company.equals(companyEmpWageList.get(i).getCompany())) {
-				totalWage = companyEmpWageList.get(i).getTotalEmpWage();
-				return totalWage;
-			}
-
-		}
-		return 0;
 	}
 
 	private int computeEmpWage(CompanyEmployeeWage companyEmpWage) {
@@ -66,6 +52,31 @@ public class EmployeeWage implements EmployeeService {
 		return totalEmpHrs * companyEmpWage.getEmpRatePerHour();
 	}
 
+
+
+
+
+
+
+	public static void main(String[] args) {
+		int IS_FULL_TIME = 1;
+
+
+		double empCheck = Math.floor(Math.random()*10)%2;
+
+		if (empCheck == IS_FULL_TIME)
+			empHrs = 8;
+		else if (empCheck == IS_PART_TIME)
+			empHrs = 4;
+		else
+			empHrs = 0;
+		empWage = empHrs*EMP_RATE_PER_HOUR;
+		System.out.println("Emp Wage:" + empWage);
+
+
+
+
+
 	public static void main(String[] args) {
 		EmployeeWage employeeWage = new EmployeeWage();
 		employeeWage.addCompanyEmpWage("DMart", 20, 2, 10);
@@ -74,4 +85,3 @@ public class EmployeeWage implements EmployeeService {
 		System.out.println("Total Wage for DMart Company:" + employeeWage.getTotalWage("DMart")) ;
 	}
 
-}
