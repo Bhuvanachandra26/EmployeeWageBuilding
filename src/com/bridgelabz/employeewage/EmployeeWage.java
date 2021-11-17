@@ -2,6 +2,7 @@ package com.bridgelabz.employeewage;
 
 public class EmployeeWage {
 
+
 	public static void main(String[] args) {
 		int IS_FULL_TIME = 1;
 
